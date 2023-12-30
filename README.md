@@ -13,8 +13,6 @@ This repository will contain the implementation of the following paper:
 
 From [MMLab@NTU](https://www.mmlab-ntu.com/) affliated with S-Lab, Nanyang Technological University and Shanghai AI Laboratory.
 
-The code is expected to be released by the end of December!
-
 ## :mega: Overview
 Our VideoBooth generates videos with the subjects specified in the image prompts.
 ![overall_structure](./assets/teaser.png)
