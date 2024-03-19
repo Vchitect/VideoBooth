@@ -13,21 +13,55 @@ This repository will contain the implementation of the following paper:
 
 From [MMLab@NTU](https://www.mmlab-ntu.com/) affliated with S-Lab, Nanyang Technological University and Shanghai AI Laboratory.
 
-## :mega: Overview
+## Overview
 Our VideoBooth generates videos with the subjects specified in the image prompts.
 ![overall_structure](./assets/teaser.png)
 
 
+## TODO
 
-## :black_nib: Citation
+- [ ] Release the training code.
+- [ ] Release the training dataset.
 
-   If you find our repo useful for your research, please consider citing our paper:
 
-   ```bibtex
-    @article{jiang2023videobooth,
-        author = {Jiang, Yuming and Wu, Tianxing and Yang, Shuai and Si, Chenyang and Lin, Dahua and Qiao, Yu and Loy, Chen Change and Liu, Ziwei},
-        title = {VideoBooth: Diffusion-based Video Generation with Image Prompts},
-        year = {2023}
-    }
-   ```
+## Installation
+
+1. Clone the repository.
+
+```shell
+git clone https://github.com/Vchitect/VideoBooth.git
+cd VideoBooth
+```
+
+2. Install the environment.
+
+```shell
+conda env create -f environment.yml
+conda activate videobooth
+```
+
+3. Download pretrained models ([Stable Diffusion v1.4](https://huggingface.co/CompVis/stable-diffusion-v1-4), [VideoBooth](https://huggingface.co/yumingj/VideoBooth_models/tree/main)), and put them under the folder `./pretrained_models/`.
+
+
+## Inference
+
+Here, we provide one example to perform the inference.
+
+``` shell
+python sample_scripts/sample.py --config sample_scripts/configs/panda.yaml
+```
+
+If you want to use your own image, you need to segment the object first. We use [Grounded-SAM](https://github.com/IDEA-Research/Grounded-Segment-Anything) to segment the subject from images.
+
+## Citation
+
+If you find our repo useful for your research, please consider citing our paper:
+
+```bibtex
+@article{jiang2023videobooth,
+    author = {Jiang, Yuming and Wu, Tianxing and Yang, Shuai and Si, Chenyang and Lin, Dahua and Qiao, Yu and Loy, Chen Change and Liu, Ziwei},
+    title = {VideoBooth: Diffusion-based Video Generation with Image Prompts},
+    year = {2023}
+}
+```
 

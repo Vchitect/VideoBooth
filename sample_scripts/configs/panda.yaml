@@ -1,0 +1,8 @@
+img_path: ./sample_scripts/samples/images/panda.jpg
+mask_path: ./sample_scripts/samples/segments/panda/mask_1.png
+
+text_prompt: panda in the tiny pond
+replace_word: panda
+
+seed: 10
+bbox: [3.7753829956054688, 19.906082153320312, 221.86465454101562, 162.71131896972656]
