@@ -492,24 +492,24 @@ def main(args):
     latent_size = args.image_size // 8
     args.latent_size = latent_size
 
-    unet = UNet3DConditionModel.from_pretrained_2d(pretrained_model_path='/mnt/petrelfs/jiangyuming.p/large-video-project/pretrained/stable-diffusion-v1-4', subfolder="unet").to(device)
+    unet = UNet3DConditionModel.from_pretrained_2d(pretrained_model_path='./pretrained/stable-diffusion-v1-4', subfolder="unet").to(device)
     state_dict = torch.load(args.pretrained_t2v_model,  map_location=lambda storage, loc: storage.cuda(torch.cuda.current_device()))["ema"]
     unet.load_state_dict(state_dict)
 
     # print(unet)
 
     diffusion = create_diffusion(timestep_respacing="")  # default: 1000 steps, linear noise schedule
-    vae = AutoencoderKL.from_pretrained(f"/mnt/petrelfs/share_data/jiangyuming/models/sd-vae-ft-{args.vae}").to(device)
+    vae = AutoencoderKL.from_pretrained(f"stabilityai/sd-vae-ft-{args.vae}").to(device)
     # define tokenizer
-    tokenizer = CLIPTokenizer.from_pretrained("/mnt/petrelfs/share_data/jiangyuming/models/clip-vit-large-patch14")
+    tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-large-patch14")
 
     # modify the text encoder
-    text_encoder = CLIPTextModel.from_pretrained("/mnt/petrelfs/share_data/jiangyuming/models/clip-vit-large-patch14").to(device)
+    text_encoder = CLIPTextModel.from_pretrained("openai/clip-vit-large-patch14").to(device)
     for _module in text_encoder.modules():
         if _module.__class__.__name__ == "CLIPTextTransformer":
             _module.__class__.__call__ = inj_forward_text
 
-    image_encoder = CLIPVisionModel.from_pretrained("/mnt/petrelfs/share_data/jiangyuming/models/clip-vit-large-patch14").to(device)
+    image_encoder = CLIPVisionModel.from_pretrained("openai/clip-vit-large-patch14").to(device)
 
     mapper = Mapper(input_dim=1024, output_dim=768).to(device)
 
@@ -815,8 +815,6 @@ def main(args):
                     checkpoint_path = f"{checkpoint_dir}/{train_steps:07d}.pt"
                     torch.save(checkpoint, checkpoint_path)
                     logger.info(f"Saved checkpoint to {checkpoint_path}")
-                    os.system(f'aws --profile AIGC --endpoint-url=http://p-ceph-norm-inside.pjlab.org.cn s3 cp {checkpoint_path} s3://jiangyuming/VComposer/{checkpoint_path[10:]}')
-                    os.system(f'rm -rf {checkpoint_path}')
 
                     validation(diffusion, unet, mapper, image_encoder, tokenizer, video_data, text_encoder, vae, args.cfg_scale, device, f'{experiment_dir}/validation/iters_{train_steps}')
                 dist.barrier()

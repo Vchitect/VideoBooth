@@ -613,8 +613,6 @@ def main(args):
                     checkpoint_path = f"{checkpoint_dir}/{train_steps:07d}.pt"
                     torch.save(checkpoint, checkpoint_path)
                     logger.info(f"Saved checkpoint to {checkpoint_path}")
-                    os.system(f'aws --endpoint-url=http://10.135.3.248:80 s3 cp {checkpoint_path} s3://jiangyuming/VComposer/{checkpoint_path[10:]}')
-                    os.system(f'rm -rf {checkpoint_path}')
                     validation(diffusion, unet, mapper, image_encoder, tokenizer, video_data, text_encoder, vae, args.cfg_scale, device, f'{experiment_dir}/validation/iters_{train_steps}')
                 dist.barrier()
 
