@@ -68,7 +68,7 @@ srun --mpi=pmi2 torchrun --nnodes=1 --nproc_per_node=8 --master_port=29125 train
 --global-mapper-path path-to-elite-global-model
 ```
 
-# Stage 2: Fine Stage Trainign
+# Stage 2: Fine Stage Training
 
 ``` shell
 srun --mpi=pmi2 torchrun --nnodes=1 --nproc_per_node=8 --master_port=29125 train_stage2.py \
